@@ -38,7 +38,47 @@ z-index:10;
 const SidebarWrap = styled.div`
 width:100%
 `;
-const Sidebar=()=> {
+const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) =>  {
+
+    const logout = async()=>{
+        await fetch('https://localhost:44317/api/logout',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            credentials:'include',
+            
+        });
+
+        props.setUserName('');
+
+    }
+
+    let menu;
+  
+      if(typeof props.username == "undefined"){
+     menu=(
+        <NavIcon to="#" style={{zIndex:100}}>
+          
+            <Link to="/login">
+            <AiIcons.AiOutlineLogin />
+            </Link> 
+
+            <Link to="/register">
+                <AiIcons.AiOutlineFileAdd />
+            </Link>
+    </NavIcon>
+     )
+    }
+    else{
+        menu = (
+            <NavIcon to="#">
+          
+            <Link to="/login" onClick={logout}>
+               <AiIcons.AiOutlineLogout />
+            </Link>
+          </NavIcon>
+        )
+    }
+    ////////////////
     const[sidebar,setSidebar] = useState(false);
     const showSidebar = () => setSidebar(!sidebar)
     return (
@@ -49,6 +89,7 @@ const Sidebar=()=> {
         <NavIcon to="#">
             <FaIcons.FaBars  onClick={showSidebar}/>
         </NavIcon>
+        {menu}
     </Nav>
     <SidebarNav sidebar={sidebar}>
         <SidebarWrap>
@@ -62,8 +103,7 @@ const Sidebar=()=> {
         
     </SidebarNav>
     </IconContext.Provider>
-
-    </>
+   </>
     );
 };
 
