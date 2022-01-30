@@ -1,6 +1,8 @@
 import { result } from 'lodash';
 import React,{Component} from 'react';
 import { variables } from '../../components/Variables';
+import Cookies from 'js-cookies';
+
 export class Employee extends Component{
 
     constructor(props){
@@ -22,7 +24,13 @@ export class Employee extends Component{
     }
 
     refreshList(){
-        fetch(variables.API_URL+'employee')
+       const token = Cookies.getItem('jwt');
+            
+        fetch(variables.API_URL+'employee',{
+            method:'GET',
+            headers:{'Authorization': 'Bearer '+token, 
+                 'Content-Type':'application/json'}
+        })
         .then(response => response.json())
         .then(data=>{this.setState({employees:data});
       });
@@ -165,14 +173,14 @@ export class Employee extends Component{
         return(
             <div>
                 <button type="button" className="btn btn-primary m-2 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>this.addClick()}>Add Employee</button>
-                <table className="table table-striped">
+                <table className="table table-striped tablertl">
                     <thead>
                         <tr>
-                            <th>EmployeeId</th>
-                            <th>EmployeeName</th>
-                            <th>Department</th>
-                            <th>DateOfJoining</th>
-                            <th>Options</th>
+                            <th>کد</th>
+                            <th>نام ونام خانوادگی</th>
+                            <th>دپارتمان</th>
+                            <th>تاریخ عضویت</th>
+                            <th>فعالیت ها</th>
                         </tr>
                     </thead>
                     <tbody>

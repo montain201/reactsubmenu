@@ -10,20 +10,25 @@ import React,{useEffect, useState} from 'react'
 import BaseInfo from './pages/BaseInfo';
 import { Department } from './pages/baseinfo/department';
 import {Employee}  from './pages/baseinfo/employee';
+import { variables } from './components/Variables';
+import Cookies from 'js-cookies';
 
 
 function App() {
       const[username,setUserName] = useState('');
+      
       useEffect(()=>{
       (
           async()=>{
-            const response =  await fetch('https://localhost:44317/api/user',{
+            //const response =  await fetch('https://localhost:44317/api/user',{
+            const response =  await fetch(variables.API_AUTH+'User',{
+              
               headers:{'Content-Type':'application/json'},
               credentials:'include',
     });
       const content = await response.json();
-  console.log(content.userName);
-  setUserName(content.userName);
+      
+      setUserName(content.UserName);
       }
   )();
 });

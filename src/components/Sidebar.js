@@ -6,6 +6,9 @@ import * as AiIcons from 'react-icons/ai';
 import { SidebarData } from './SidebarData';
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
+import { variables} from './Variables';
+;
+
 
 const Nav = styled.div`
 background: #15171c;
@@ -41,7 +44,8 @@ width:100%
 const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) =>  {
 
     const logout = async()=>{
-        await fetch('https://localhost:44317/api/logout',{
+        await fetch(variables.API_AUTH+'logout',{
+           
             method:'POST',
             headers:{'Content-Type':'application/json'},
             credentials:'include',

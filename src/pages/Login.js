@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {Navigate } from 'react-router-dom';
+import { variables } from '../components/Variables';
 const Login =(props:{setUserName:(username:string)=>void}) =>
 {
 const [username,setusername] = useState('');
@@ -9,7 +10,8 @@ const [username,setusername] = useState('');
 const submit = async (e: SyntheticEvent)=>{
     e.preventDefault();
     
-   const response =  await fetch('https://localhost:44317/api/login',{
+   //const response =  await fetch(variables.API_AUTH+'User',{
+    const response =  await fetch(variables.API_AUTH+'Login',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         credentials:'include',

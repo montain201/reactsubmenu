@@ -1,5 +1,6 @@
 import React, { SyntheticEvent ,useState } from 'react';
 import {Navigate } from 'react-router-dom';
+import { variables } from '../components/Variables';
 
 const Register = ()=> {
     const[username,setusername] = useState('');
@@ -10,7 +11,9 @@ const Register = ()=> {
     const submit = async (e: SyntheticEvent)=>{
         e.preventDefault();
 
-        const response = await fetch('https://localhost:44317/api/register',{
+        //const response = await fetch('https://localhost:44317/api/register',{
+        const response =  await fetch(variables.API_AUTH+'login',{
+
             method:'POST',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({
