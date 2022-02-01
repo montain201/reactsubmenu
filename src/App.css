@@ -68,8 +68,11 @@
   border-top-right-radius: 0;
 }
 .table{
-  direction: rtl;
+  /* direction: rtl; */
 }
 .table>thead{
   background-color: bisque;
+}
+.chosefile{
+  background-color: #f2fff9;
 }

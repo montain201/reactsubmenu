@@ -11,26 +11,28 @@ import BaseInfo from './pages/BaseInfo';
 import { Department } from './pages/baseinfo/department';
 import {Employee}  from './pages/baseinfo/employee';
 import { variables } from './components/Variables';
-import Cookies from 'js-cookies';
+import { Ticket } from './pages/ticket/ticket';
 
 
 function App() {
       const[username,setUserName] = useState('');
       
       useEffect(()=>{
-      (
-          async()=>{
-            //const response =  await fetch('https://localhost:44317/api/user',{
-            const response =  await fetch(variables.API_AUTH+'User',{
+  //     (
+  //         async()=>{
+  //           //const response =  await fetch('https://localhost:44317/api/user',{
+  //           const response =  await fetch(variables.API_AUTH+'User',{
               
-              headers:{'Content-Type':'application/json'},
-              credentials:'include',
-    });
-      const content = await response.json();
+  //             headers:{'Content-Type':'application/json'},
+  //             credentials:'include',
+  //   });
+  //     const content = await response.json();
       
-      setUserName(content.UserName);
-      }
-  )();
+  //     setUserName(content.UserName);
+  //     }
+  // )();
+       console.log(username);
+
 });
   return (
     <Router>
@@ -47,6 +49,8 @@ function App() {
         <Route path='reports/reports2'  element = {<ReportsTwo />} />
         <Route path='reports/reports3'  element = {<ReportsThree />} />
         <Route path="/" exact element={<Home username={username} />} />
+        <Route path="/ticket/ticket" element={<Ticket/>} />
+
       </Routes>
         </main>
     </Router>

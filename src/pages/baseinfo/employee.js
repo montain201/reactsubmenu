@@ -176,11 +176,11 @@ export class Employee extends Component{
                 <table className="table table-striped tablertl">
                     <thead>
                         <tr>
-                            <th>کد</th>
-                            <th>نام ونام خانوادگی</th>
-                            <th>دپارتمان</th>
-                            <th>تاریخ عضویت</th>
-                            <th>فعالیت ها</th>
+                            <th>ID</th>
+                            <th>Employee Name</th>
+                            <th>Department</th>
+                            <th>Date</th>
+                            <th>Options</th>
                         </tr>
                     </thead>
                     <tbody>

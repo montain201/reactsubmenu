@@ -43,25 +43,26 @@ width:100%
 `;
 const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) =>  {
 
-    const logout = async()=>{
-        await fetch(variables.API_AUTH+'logout',{
+     const logout = async()=>{
+    //     await fetch(variables.API_AUTH+'logout',{
            
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            credentials:'include',
+    //         method:'POST',
+    //         headers:{'Content-Type':'application/json'},
+    //         credentials:'include',
             
-        });
+    //     });
 
-        props.setUserName('');
+    //     props.setUserName('');
 
-    }
+     }
 
+    console.log(props.username);
     let menu;
-  
+    
       if(typeof props.username == "undefined"){
      menu=(
         <NavIcon to="#" style={{zIndex:100}}>
-          
+            
             <Link to="/login">
             <AiIcons.AiOutlineLogin />
             </Link> 
@@ -78,6 +79,7 @@ const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) 
           
             <Link to="/login" onClick={logout}>
                <AiIcons.AiOutlineLogout />
+                 {props.username}
             </Link>
           </NavIcon>
         )

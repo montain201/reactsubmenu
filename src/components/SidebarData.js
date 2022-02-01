@@ -13,12 +13,12 @@ export const SidebarData = [
         iconOpened:<RiIcons.RiArrowUpSFill />,
         subNav:[
             {
-                title:'پرسنل',
+                title:'Employee',
                 path:'/baseinfo/employee',
                 icon:<IoIcons.IoIosPaper />,
             },
             {
-                title:'دپارتمان',
+                title:'Department',
                 path:'/baseinfo/department',
                 icon:<IoIcons.IoIosPaper />,
             },
@@ -26,7 +26,7 @@ export const SidebarData = [
     },
     {
         title:'Ticket',
-        // path:'/ticket',
+         path:'/ticket',
         icon:<AiIcons.AiFillHome/>,
         iconClosed:<RiIcons.RiArrowDownFill />,
         iconOpened:<RiIcons.RiArrowUpSFill />,

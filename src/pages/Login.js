@@ -20,8 +20,12 @@ const submit = async (e: SyntheticEvent)=>{
             password
         })
     });
-   setRedirect(true);
-    props.setUserName(username);
+    const content = await response.json();
+    if(content.message == 'success')
+     { 
+        props.setUserName(username);
+        setRedirect(true);
+     }
   }
   if(redirect)
   {
