@@ -208,6 +208,7 @@ export class Ticket extends Component
                             <th>TicketType</th>
                             <th>TicketState</th>
                             <th>TicketDescription</th>
+                            <th>User Name</th>
                             <th>CreationDate</th>
                             <th>Options</th>
                         </tr>
@@ -220,6 +221,7 @@ export class Ticket extends Component
                                 <td>{tck.TicketType}</td>
                                 <td>{tck.TicketState}</td>
                                 <td>{tck.TicketStatusDescription}</td>
+                                <td>{tck.UserName}</td>
                                 <td>{tck.CreationDate}</td>
                                 <td>
                                     <button type ="button" className="btn btn-light mr-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
