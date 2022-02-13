@@ -5,6 +5,13 @@ import { Component } from 'react/cjs/react.production.min';
 
   class  TicketDetail   extends  Component {
 
+    constructor(props){
+      super(props);
+      this.state={
+        ticketStatusList:[]
+      }
+    }
+
     refreshList(tid){
       const token = Cookies.getItem('jwt');
        
@@ -14,19 +21,49 @@ import { Component } from 'react/cjs/react.production.min';
                 'Content-Type':'application/json'}
        })
        .then(response => response.json())
-       .then(data=>{this.setState({tickets:data});
+       .then(data=>{this.setState({ticketStatusList:data});
      });
    }
 
    componentDidMount(){
-    // const tid ={this.props.statement};
-    // this.refreshList(tid);
+    //this.setState({TicketId:this.props.statement});
+    this.refreshList(this.props.statement);
 }
 
   render(){
-
-   
-    return<div>{this.props.statement} I am feeling</div>;
+    const{
+      ticketStatusList
+    } = this.state;
+    //return<div>{this.props.statement} I am feeling</div>;
+    return(
+    <div>
+        <table className="table table-striped tablertl">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TicketNumber</th>
+                            <th>TicketType</th>
+                            <th>TicketState</th>
+                            <th>TicketDescription</th>
+                            <th>CreationDate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ticketStatusList.map(tck=>
+                            <tr key={tck.TicketStatusId}>
+                                <td>{tck.TicketStatusId}</td>
+                                <td>{tck.TicketNo}</td>
+                                <td>{tck.TicketType}</td>
+                                <td>{tck.TicketState}</td>
+                                <td>{tck.TicketStatusDescription}</td>
+                                <td>{tck.CreationDate}</td>
+                                
+                            </tr>
+                            )}
+                    </tbody>
+                </table>
+    </div>
+    )
   }
   }
   export default TicketDetail;

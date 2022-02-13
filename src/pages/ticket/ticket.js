@@ -310,7 +310,6 @@ export class Ticket extends Component
                     </div>
                 </div>
 
-                {/* ///////////////// */}
                 <div className="modal fade" id="ticketStateModal" tableIndex="-1" aria-hidden = "true">
                     <div className="modal-dialog modal-lg modal-dialog-centered">
                         <div className="modal-content">
