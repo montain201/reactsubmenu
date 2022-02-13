@@ -45,6 +45,7 @@ import { Component } from 'react/cjs/react.production.min';
                             <th>TicketType</th>
                             <th>TicketState</th>
                             <th>TicketDescription</th>
+                            <th>User Name</th>
                             <th>CreationDate</th>
                         </tr>
                     </thead>
@@ -56,6 +57,7 @@ import { Component } from 'react/cjs/react.production.min';
                                 <td>{tck.TicketType}</td>
                                 <td>{tck.TicketState}</td>
                                 <td>{tck.TicketStatusDescription}</td>
+                                <td>{tck.UserName}</td>
                                 <td>{tck.CreationDate}</td>
                                 
                             </tr>
