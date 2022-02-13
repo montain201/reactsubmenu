@@ -56,7 +56,7 @@ const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) 
 
      }
 
-    console.log(props.username);
+   
     let menu;
     
       if(typeof props.username == "undefined"){

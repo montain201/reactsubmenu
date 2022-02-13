@@ -12,10 +12,17 @@ import { Department } from './pages/baseinfo/department';
 import {Employee}  from './pages/baseinfo/employee';
 import { variables } from './components/Variables';
 import { Ticket } from './pages/ticket/ticket';
+import TicketDetail from './pages/ticket/TicketDetail';
 
 
 function App() {
       const[username,setUserName] = useState('');
+      const[TicketId,setTicketId] = useState('');
+      const queryParams = new URLSearchParams(window.location.search)
+      const statement = queryParams.get("statement")
+      console.log(statement);
+      //let [searchParams, setSearchParams] = useSearchParams();
+      // searchParams.get("statement");
       
       useEffect(()=>{
   //     (
@@ -31,11 +38,12 @@ function App() {
   //     setUserName(content.UserName);
   //     }
   // )();
-       console.log(username);
-
+      
 });
   return (
+    
     <Router>
+      
       <Sidebar username={username} setUserName={setUserName}/>
         <main className='form-signin'>
       <Routes>
@@ -49,7 +57,9 @@ function App() {
         <Route path='reports/reports2'  element = {<ReportsTwo />} />
         <Route path='reports/reports3'  element = {<ReportsThree />} />
         <Route path="/" exact element={<Home username={username} />} />
-        <Route path="/ticket/ticket" element={<Ticket/>} />
+        <Route path="/ticket/ticket" element={<Ticket setTicketId={setTicketId}/>} />
+        <Route path="/ticket/ticketDetail" element={<TicketDetail  statement={statement} />} />
+        {/* <TicketDetail statement='Hello' /> */}
 
       </Routes>
         </main>
