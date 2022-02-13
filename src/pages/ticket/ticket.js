@@ -1,10 +1,12 @@
 import { result } from 'lodash';
 import React,{Component} from 'react';
 import { variables } from '../../components/Variables';
+import * as AiIcons from 'react-icons/ai';
 import Cookies from 'js-cookies';
+import { Link } from 'react-router-dom';
 
-export class Ticket extends Component{
-
+export class Ticket extends Component
+{
     constructor(props){
         super(props);
 
@@ -13,10 +15,13 @@ export class Ticket extends Component{
             modalTitle:"",
             TicketStatusId:0,
             TicketNo:"",
+            TicketId:"",
+            Url:"",
             TicketType:"",
             TicketState:"",
             TicketDescription:"",
-            CreationDate:""
+            Attachment:"",
+            AttachmentPath:variables.PHOTO_URL
         }
     }
 
@@ -32,9 +37,6 @@ export class Ticket extends Component{
         .then(data=>{this.setState({tickets:data});
       });
     }
-
-    
-
     componentDidMount(){
         this.refreshList();
     }
@@ -42,11 +44,19 @@ export class Ticket extends Component{
     changeTicketType=(e)=>{
         this.setState({TicketType:e.target.value});
     }
+    setTicketId=(e)=>{
+       
+        this.setState({TicketId:e.TicketId});
+        this.setState({Url :'../ticket/TicketDetail?statement='+e.TicketId});
+    }
 
     changeTicketDescription=(e)=>{
         this.setState({TicketDescription:e.target.value});
     }
 
+    changeTicketStatus=(e)=>{
+        this.setState({TicketState:e.target.value});
+    }
     addClick(){
         this.setState({
            modalTitle:"Create Ticket",
@@ -61,6 +71,7 @@ export class Ticket extends Component{
     }
     createClick(){
         const tt = this.state.TicketType;
+        const token = Cookies.getItem('jwt');
         if(tt == '' || tt == 'Please Select')
         {return;}
         
@@ -69,13 +80,36 @@ export class Ticket extends Component{
             method:'POST',
             headers:{
                 'Accept':'application/json',
+                'Authorization': 'Bearer '+token, 
                 'Content-Type':'application/json'
             },
             body:JSON.stringify({
                 TicketType:this.state.TicketType,
                 TicketDescription:this.state.TicketDescription,
                 // DateOfJoining:this.state.DateOfJoining,
-                // PhotoFileName:this.state.PhotoFileName,
+                 Attachment:this.state.Attachment,
+            })
+        })
+        .then(res=>res.json())
+        .then((result)=>{
+            alert(result);
+            this.refreshList();
+        },(error)=>{
+            alert('Failed');
+        });
+    }
+
+    updateClick(){
+        fetch(variables.API_URL+'ticket',{
+            method:'PUT',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                TicketId:this.state.TicketId,
+                TicketState:this.state.TicketState,
+                TicketDescription:this.state.TicketDescription
             })
         })
         .then(res=>res.json())
@@ -91,33 +125,78 @@ export class Ticket extends Component{
         this.setState({TicketDescription:e.target.value});
     }
 
-    // ticketAttachment1=(e)=>{
-    //     e.preventDefault();
+    attachmentUpload=(e)=>{
+        e.preventDefault();
 
-    //     const formData = new FormData();
-    //     formData.append("file",e.target.files[0],e.target.files[0].name);
+        const formData = new FormData();
+        const files = e.target.files;
 
-    //     fetch(variables.API_URL+'employee/savefile',{
-    //         method:'POST',
-    //         body:formData,
-    //     })
-    //     .then(res=>res.json())
-    //     .then(data=>{
-    //         this.setState({PhotoFileName:data});
-    //     })
-    // }
+            for (let i = 0; i < files.length; i++) {
+                formData.append(`attachment[${i}]`, files[i])
+            }
+        //formData.append("file",e.target.files[2],e.target.files[2].name);
+        
+        fetch(variables.API_URL+'employee/savefile',{
+            method:'POST',
+            body:formData,
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data);
+            this.setState({Attachment:data});
+        })
+    }
     
+    editStatusClick(ticket){
+        this.setState({
+           modalTitle:"Change Ticket Status",
+           TicketId:ticket.TicketId,
+           TicketState:ticket.TicketState,
+           TicketStatusDescription:ticket.TicketStatusDescription
+       });
+   }
+
+   
+   updateTicketStateClick(){
+    const token = Cookies.getItem('jwt');
+    fetch(variables.API_URL+'ticket',{
+        method:'PUT',
+        headers:{
+            'Accept':'application/json',
+            'Authorization': 'Bearer '+token, 
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+            TicketId:this.state.TicketId,
+            TicketState:this.state.TicketState,
+            TicketDescription:this.state.TicketDescription
+        })
+    })
+    .then(res=>res.json())
+    .then((result)=>{
+        alert(result);
+        this.refreshList();
+    },(error)=>{
+        alert('Failed');
+    });
+   }
+
+
     render(){
         const{
             modalTitle,
             tickets,
             TicketStatusId,
             TicketNo,
+            TicketId,
+            Url,
             TicketType,
             TicketState,
             TicketDescription,
             CreationDate
         }=this.state;
+    
+
         return(
             <div>
                 <button type="button" className="btn btn-primary m-2 float-end"  data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>this.addClick()}>New Ticket</button>
@@ -140,7 +219,7 @@ export class Ticket extends Component{
                                 <td>{tck.TicketNo}</td>
                                 <td>{tck.TicketType}</td>
                                 <td>{tck.TicketState}</td>
-                                <td>{tck.TicketDescription}</td>
+                                <td>{tck.TicketStatusDescription}</td>
                                 <td>{tck.CreationDate}</td>
                                 <td>
                                     <button type ="button" className="btn btn-light mr-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -156,6 +235,18 @@ export class Ticket extends Component{
                                         <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                         </svg>
                                     </button>
+                                    <button type ="button" className="btn btn-light mr-1" data-bs-toggle="modal"  data-bs-target="#ticketStateModal"   onClick={()=>this.editStatusClick(tck)}>
+                                    <AiIcons.AiFillNotification />
+
+                                    </button>
+
+                                    <button type ="button" className="btn btn-light mr-1" >
+                                        <Link to={Url} onClick={()=>this.setTicketId(tck)} target='_blank' >
+                                        <AiIcons.AiOutlineLogin />
+                                        </Link> 
+
+                                    </button>
+
                                 </td>
                             </tr>
                             )}
@@ -188,15 +279,15 @@ export class Ticket extends Component{
                                             
                                         </div>
                                         <div className="input-group mb-3">
-                                            <input type="file" className="form-control chosefile" onChange={this.ticketAttachment1} />
-                                            {/* src={PhotoPath+PhotoFileName} */}
+                                            <input type="file" className="form-control chosefile" onChange={this.attachmentUpload} multiple />
+                                        </div>
+                                            <div>You can Select Multiple Files.</div>
+                                        {/* <div className="input-group mb-3">
+                                            <input type="file" className="form-control chosefile" onChange={this.attachmentUpload}/>
                                         </div>
                                         <div className="input-group mb-3">
-                                            <input type="file" className="form-control chosefile" onChange={this.ticketAttachment2}/>
-                                        </div>
-                                        <div className="input-group mb-3">
-                                            <input type="file" className="form-control chosefile" onChange={this.ticketAttachment3}/>
-                                        </div>
+                                            <input type="file" className="form-control chosefile" onChange={this.attachmentUpload}/>
+                                        </div> */}
                                         
                                 </div>
                                 
@@ -214,6 +305,49 @@ export class Ticket extends Component{
                                     onClick={()=>this.updateClick()}
                                     >Update Ticket</button>
                                     :null}
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ///////////////// */}
+                <div className="modal fade" id="ticketStateModal" tableIndex="-1" aria-hidden = "true">
+                    <div className="modal-dialog modal-lg modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="moal-title">{modalTitle}</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="d-flex flex-row bd-highlight mb-3">
+                                <div className="p-2 w-100 bd-highlight">
+                                        <div className="input-group mb-3">
+                                            <span className="input-group-text">Ticket Status</span>
+                                            <select className="form-select" onChange={this.changeTicketStatus}
+                                                    value={TicketState}>
+                                                    <option key="NoOne">Please Select</option>
+                                                    <option key="UnderCheck">UnderCheck</option>
+                                                    <option key="Done">Done</option>
+                                                    <option key="RoleBack">RoleBack</option>
+                                                    <option key="Confirm">Confirm</option>
+                                                </select>
+                                        </div>
+                                        <div className="input-group mb-3">
+                                            <span className="input-group-text">Description</span>
+                                            <textarea className="form-control" value={TicketDescription} 
+                                               onChange={this.changeTicketDescription}/>
+                                            
+                                        </div>
+                                        
+                                </div>
+                                
+                            </div>
+                                   
+                                    <button type = "button" 
+                                    className= "btn btn-primary float-start" 
+                                    onClick={()=>this.updateTicketStateClick()}
+                                    >Update Ticket Status</button> 
+
                         </div>
                         </div>
                     </div>
