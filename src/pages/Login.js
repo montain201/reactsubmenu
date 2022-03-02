@@ -10,7 +10,6 @@ const [username,setusername] = useState('');
 const submit = async (e: SyntheticEvent)=>{
     e.preventDefault();
     
-   //const response =  await fetch(variables.API_AUTH+'User',{
     const response =  await fetch(variables.API_AUTH+'Login',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -21,10 +20,15 @@ const submit = async (e: SyntheticEvent)=>{
         })
     });
     const content = await response.json();
+   
     if(content.message == 'success')
      { 
         props.setUserName(username);
         setRedirect(true);
+     }
+     else
+     {
+         alert(content.message);
      }
   }
   if(redirect)

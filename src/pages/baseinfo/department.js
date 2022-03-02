@@ -55,6 +55,7 @@ export class Department extends Component{
         this.FilterFn();
     }
     refreshList(){
+        console.log("---"+variables.API_URL+'department');
         fetch(variables.API_URL+'department')
         .then(response => response.json())
         .then(data=>{this.setState({departments:data,departmentsWithoutFilter:data});

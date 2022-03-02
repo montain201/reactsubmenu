@@ -276,7 +276,7 @@ export class Ticket extends Component
                                         </div>
                                         <div className="input-group mb-3">
                                             <span className="input-group-text">Description</span>
-                                            <textarea className="form-control" value={TicketDescription} 
+                                            <textarea className="form-control rtl" value={TicketDescription} 
                                                onChange={this.changeTicketDescription}/>
                                             
                                         </div>
