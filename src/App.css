@@ -76,3 +76,6 @@
 .chosefile{
   background-color: #f2fff9;
 }
+.rtl{
+  direction: rtl;
+}
