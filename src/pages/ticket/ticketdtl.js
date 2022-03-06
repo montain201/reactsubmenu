@@ -14,6 +14,7 @@ import { Component } from 'react/cjs/react.production.min';
 
     refreshList(tid){
       const token = Cookies.getItem('jwt');
+      console.log(variables.API_URL+'Ticket/GetTicketDtl?tId='+tid);
        
        fetch(variables.API_URL+'Ticket/GetTicketDtl?tId='+tid,{
            method:'GET',
@@ -26,8 +27,8 @@ import { Component } from 'react/cjs/react.production.min';
    }
 
    componentDidMount(){
-    //this.setState({TicketId:this.props.statement});
-    this.refreshList(this.props.statement);
+    console.log("tid-:" + this.props.tid);
+    this.refreshList(this.props.tid);
 }
 
   render(){

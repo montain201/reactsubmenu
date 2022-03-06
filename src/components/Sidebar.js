@@ -58,12 +58,12 @@ const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) 
 
    
     let menu;
-    
+    console.log(props.username);
       if(typeof props.username == "undefined"){
      menu=(
         <NavIcon to="#" style={{zIndex:100}}>
             
-            <Link to="/login">
+            <Link to="/login"  target="_blank">
             <AiIcons.AiOutlineLogin />
             </Link> 
 
@@ -76,7 +76,10 @@ const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) 
     else{
         menu = (
             <NavIcon to="#">
-          
+
+         
+           
+
             <Link to="/login" onClick={logout}>
                <AiIcons.AiOutlineLogout />
                  {props.username}
@@ -90,7 +93,7 @@ const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) 
     return (
     <>
     <IconContext.Provider value={{color:'#fff'}}>
-
+    
     <Nav>
         <NavIcon to="#">
             <FaIcons.FaBars  onClick={showSidebar}/>

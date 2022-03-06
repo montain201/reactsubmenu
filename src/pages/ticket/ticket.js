@@ -12,6 +12,7 @@ export class Ticket extends Component
 
         this.state={
             tickets:[],
+            tickethistory:[],
             modalTitle:"",
             TicketStatusId:0,
             TicketNo:"",
@@ -37,17 +38,27 @@ export class Ticket extends Component
         .then(data=>{this.setState({tickets:data});
       });
     }
+
+    refreshHistory(e){
+        const token = Cookies.getItem('jwt');
+             
+         fetch(variables.API_URL+'Ticket/GetTicketDtl?tid='+e.TicketId,{
+             method:'GET',
+             headers:{'Authorization': 'Bearer '+token, 
+                  'Content-Type':'application/json'}
+             
+         })
+         .then(response => response.json())
+         .then(data=>{this.setState({tickethistory:data});
+       });
+       this.setState({TicketNo:e.TicketNo});
+     }
     componentDidMount(){
         this.refreshList();
     }
     
     changeTicketType=(e)=>{
         this.setState({TicketType:e.target.value});
-    }
-    setTicketId=(e)=>{
-       
-        this.setState({TicketId:e.TicketId});
-        this.setState({Url :'../ticket/TicketDetail?statement='+e.TicketId});
     }
 
     changeTicketDescription=(e)=>{
@@ -68,6 +79,9 @@ export class Ticket extends Component
            CreationDate:""
            
        });
+    }
+    newWindowClick(){
+            window.open("dtltest", "_blank") //to open new page
     }
     createClick(){
         const tt = this.state.TicketType;
@@ -186,6 +200,7 @@ export class Ticket extends Component
         const{
             modalTitle,
             tickets,
+            tickethistory,
             TicketStatusId,
             TicketNo,
             TicketId,
@@ -242,11 +257,8 @@ export class Ticket extends Component
 
                                     </button>
 
-                                    <button type ="button" className="btn btn-light mr-1" >
-                                        <Link to={Url} onClick={()=>this.setTicketId(tck)} target='_blank' >
+                                    <button type ="button" className="btn btn-light mr-1" data-bs-toggle="modal" data-bs-target="#tickethistorymodal" onClick={()=>this.refreshHistory(tck)}>
                                         <AiIcons.AiOutlineLogin />
-                                        </Link> 
-
                                     </button>
 
                                 </td>
@@ -353,7 +365,41 @@ export class Ticket extends Component
                         </div>
                     </div>
                 </div>
-
+                <div className="modal fade" id="tickethistorymodal" tableIndex="-1" aria-hidden = "true">
+                    <div className="modal-dialog modal-lg modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                              <b>{TicketNo}</b>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <table className="table table-striped tablertl">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>TicketState</th>
+                                            <th>TicketDescription</th>
+                                            <th>User Name</th>
+                                            <th>CreationDate</th>
+                                        
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                        {tickethistory.map(tck=>
+                                                <tr key={tck.TicketStatusId}>
+                                                    <td>{tck.TicketStatusId}</td>
+                                                    <td>{tck.TicketState}</td>
+                                                    <td>{tck.TicketStatusDescription}</td>
+                                                    <td>{tck.UserName}</td>
+                                                    <td>{tck.CreationDate}</td>
+                                                </tr>
+                                                )}
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>)
     }
 }
