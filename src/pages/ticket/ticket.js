@@ -88,8 +88,6 @@ export class Ticket extends Component
         const token = Cookies.getItem('jwt');
         if(tt == '' || tt == 'Please Select')
         {return;}
-        
-        
         fetch(variables.API_URL+'ticket',{
             method:'POST',
             headers:{
@@ -159,8 +157,7 @@ export class Ticket extends Component
             console.log(data);
             this.setState({Attachment:data});
         })
-    }
-    
+    } 
     editStatusClick(ticket){
         this.setState({
            modalTitle:"Change Ticket Status",
@@ -170,7 +167,6 @@ export class Ticket extends Component
        });
    }
 
-   
    updateTicketStateClick(){
     const token = Cookies.getItem('jwt');
     fetch(variables.API_URL+'ticket',{

@@ -12,7 +12,7 @@ import { Department } from './pages/baseinfo/department';
 import {Employee}  from './pages/baseinfo/employee';
 import { variables } from './components/Variables';
 import { Ticket }   from './pages/ticket/ticket';
-import {TicketDetail} from './pages/ticket/ticketdtl';
+
 
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
           <Route path='reports/reports3'  element = {<ReportsThree />} />
           <Route path="/" exact element={<Home username={username} />} />
           <Route path="/ticket/ticket"    element={<Ticket setTicketId={setTicketId}/>} />
-          {/* <Route path="/ticket/ticketdtl" element={<TicketDetail  tid={tid} />} /> */}
+          
          
         
         </Routes>
