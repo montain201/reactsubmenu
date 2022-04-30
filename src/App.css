@@ -40,11 +40,11 @@
 .form-signin {
   /* width: 100%;
   max-width: 330px;
-  padding: 15px;
+  max-width: 80%;
   margin: auto; */
-
-    max-width: 80%;
-    margin-left: 18%;
+  padding: 2%;
+    
+    /* margin-left: 18%; */
 }
 
 .form-signin .checkbox {
@@ -78,4 +78,23 @@
 }
 .rtl{
   direction: rtl;
+}
+.bordersolid{
+  border: solid 2px;
+  margin-bottom: 5px;
+  border-color: #bb8ded;
+  padding-top: 10px;
+}
+.clearboth{
+  clear: both;
+}
+.colorblueweight{
+  font-weight: 500;
+  color: #613feb;
+}
+.directionrtl{
+  direction: rtl;
+}
+.paddingleft5{
+  padding-left: 10px;
 }

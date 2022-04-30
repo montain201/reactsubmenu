@@ -7,12 +7,14 @@ const Register = ()=> {
     const[password,setpassword] = useState('');
     const[confirmpassword,setconfirmpassword] = useState('');
     const[redirect,setRedirect] = useState(false);
+    //const[hasalert,setHasalert] = useState(false);
 
     const submit = async (e: SyntheticEvent)=>{
         e.preventDefault();
 
+
         //const response = await fetch('https://localhost:44317/api/register',{
-        const response =  await fetch(variables.API_AUTH+'login',{
+        const response =  await fetch(variables.API_AUTH+'register',{
 
             method:'POST',
             headers:{'Content-Type':'application/json'},
@@ -24,11 +26,53 @@ const Register = ()=> {
         });
         
         const content = await response.json();
-        setRedirect(true);
+        //const hasalert = '';
+        
+
+      
+        // if(content.errors!=null)
+        // {
+        //   var length = content.errors.ConfirmPassword.length;  // find an array length
+        
+        //     for(var i=0; i< length; i++){
+        //       alertx += content.errors.ConfirmPassword[i];  // concat Array value to a string variable
+        //       if(i < (length-1) ){
+        //         alertx += '\n';  // add separator
+        //       }
+        //     }
+        //   alert(alertx);
+        //   return;
+        // }
+        //if(!alertx.trim()){
+          
+         // console.log(redirect);
+          setRedirect(false);
+          const alertcount = content.length;
+             alertcount > 0 && setRedirect(true)
+
+          // for (const element of content){
+          //   //alertx += element.Description+"\n"; } ;
+          //   console.log(element.Description);
+          //   //setHasalert(true);
+          //   setRedirect(false);
+          // }
+         // console.log(redirect);
+
+        // alert(alertx);
+        // return;
+       // }
+      //   console.log(hasalert);
+      //   if(!hasalert)
+      //   // if(!alertx.trim())
+      //   //    { 
+      //        setRedirect(true);
+      //  //    }
+      
     }
+    //console.log(redirect);
     if(redirect)
     {
-        return(<Navigate  to="/login" />)
+        return(<Navigate  to="/" />)
     }
     return (
         <form onSubmit={submit}>

@@ -44,26 +44,27 @@ width:100%
 const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) =>  {
 
      const logout = async()=>{
-    //     await fetch(variables.API_AUTH+'logout',{
+        await fetch(variables.API_AUTH+'logout',{
            
-    //         method:'POST',
-    //         headers:{'Content-Type':'application/json'},
-    //         credentials:'include',
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            credentials:'include',
             
-    //     });
+        });
 
-    //     props.setUserName('');
+        props.setUserName('');
 
      }
 
    
     let menu;
-    console.log(props.username);
-      if(typeof props.username == "undefined"){
+    
+      
+      if(typeof !props.username.trim()){
      menu=(
         <NavIcon to="#" style={{zIndex:100}}>
             
-            <Link to="/login"  target="_blank">
+            <Link to="/">
             <AiIcons.AiOutlineLogin />
             </Link> 
 
@@ -77,10 +78,7 @@ const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) 
         menu = (
             <NavIcon to="#">
 
-         
-           
-
-            <Link to="/login" onClick={logout}>
+            <Link to="/" onClick={logout}>
                <AiIcons.AiOutlineLogout />
                  {props.username}
             </Link>
@@ -92,26 +90,28 @@ const Sidebar= (props: {username:string , setUserName:(username:string)=>void}) 
     const showSidebar = () => setSidebar(!sidebar)
     return (
     <>
-    <IconContext.Provider value={{color:'#fff'}}>
+   
+    <IconContext.Provider  value={{color:'#fff'}}>
     
-    <Nav>
-        <NavIcon to="#">
-            <FaIcons.FaBars  onClick={showSidebar}/>
-        </NavIcon>
-        {menu}
-    </Nav>
-    <SidebarNav sidebar={sidebar}>
-        <SidebarWrap>
-        <NavIcon to="#">
-            <AiIcons.AiOutlineClose  onClick={showSidebar}/>
-        </NavIcon>
-        {SidebarData.map((item,index) => {
-            return <SubMenu item={item} key= {index} />;
-        })}
-        </SidebarWrap>
-        
-    </SidebarNav>
-    </IconContext.Provider>
+        <Nav>
+            <NavIcon to="#">
+                <FaIcons.FaBars  onClick={showSidebar}/>
+            </NavIcon>
+            {menu}
+        </Nav>
+        <SidebarNav sidebar={sidebar}>
+            <SidebarWrap>
+            <NavIcon to="#">
+                <AiIcons.AiOutlineClose  onClick={showSidebar}/>
+            </NavIcon>
+            {SidebarData.map((item,index) => {
+                return <SubMenu item={item} key= {index} />;
+            })}
+            </SidebarWrap>
+            
+        </SidebarNav>
+        </IconContext.Provider>
+       
    </>
     );
 };
